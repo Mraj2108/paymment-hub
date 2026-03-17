@@ -2,171 +2,399 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Pay Me — UPI Payment Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Pay Mritunjay Raj</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{
-  background: #0a0a14;
+  background:#08080f;
   min-height:100vh;
   font-family:'Sora',sans-serif;
   display:flex;align-items:center;justify-content:center;
   padding:2rem 1rem;
 }
-.wrap{width:100%;max-width:440px;}
+.wrap{width:100%;max-width:420px;}
 
-/* Header */
+/* ── Header ── */
 .header{text-align:center;margin-bottom:2rem;}
 .avatar{
-  width:72px;height:72px;border-radius:50%;
+  width:76px;height:76px;border-radius:50%;
   background:linear-gradient(135deg,#6c63ff,#ff6b9d);
   display:flex;align-items:center;justify-content:center;
-  font-size:28px;font-weight:700;color:#fff;
+  font-size:30px;font-weight:700;color:#fff;
   margin:0 auto 14px;
-  box-shadow:0 0 0 4px rgba(108,99,255,0.2);
+  box-shadow:0 0 0 5px rgba(108,99,255,0.18),0 0 32px rgba(108,99,255,0.2);
 }
-.name{font-size:22px;font-weight:700;color:#f0f0f8;letter-spacing:-.03em;}
-.tagline{font-size:13px;color:#666680;margin-top:5px;}
+.pname{font-size:22px;font-weight:700;color:#f0f0f8;letter-spacing:-.03em;}
+.tagline{font-size:13px;color:#55556a;margin-top:5px;}
 
-/* Cards */
+/* ── Smart detect banner ── */
+.detect-bar{
+  background:rgba(108,99,255,0.1);
+  border:1px solid rgba(108,99,255,0.25);
+  border-radius:12px;
+  padding:10px 14px;
+  margin-bottom:1rem;
+  display:flex;align-items:center;gap:10px;
+  font-size:12px;color:#9990ff;
+}
+.detect-bar .dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#6c63ff;flex-shrink:0;
+  animation:pulse 1.5s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+
+/* ── App cards ── */
 .list{display:flex;flex-direction:column;gap:10px;}
-.rec{
+.app-card{
   display:flex;align-items:center;gap:14px;
   background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.07);
   border-radius:16px;padding:14px 16px;
-  text-decoration:none;
-  transition:all .2s ease;
   cursor:pointer;
+  transition:all .2s ease;
+  position:relative;
+  overflow:hidden;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
 }
-.rec:hover,.rec:active{
+.app-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.03),transparent);
+  transform:translateX(-100%);
+  transition:transform .4s ease;
+}
+.app-card:hover::before,.app-card:active::before{transform:translateX(100%);}
+.app-card:hover,.app-card:active{
   background:rgba(255,255,255,0.08);
-  border-color:rgba(108,99,255,0.5);
+  border-color:rgba(108,99,255,0.45);
   transform:translateY(-2px);
-  box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  box-shadow:0 8px 28px rgba(0,0,0,0.35);
 }
-.app-icon{
-  width:46px;height:46px;border-radius:14px;
+.app-card.detecting{
+  border-color:rgba(108,99,255,0.7);
+  background:rgba(108,99,255,0.1);
+  animation:cardPulse .6s ease;
+}
+@keyframes cardPulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+.app-card.success{
+  border-color:rgba(34,197,94,0.6);
+  background:rgba(34,197,94,0.08);
+}
+.app-card.failed{opacity:.4;}
+
+.icon{
+  width:48px;height:48px;border-radius:14px;
   display:flex;align-items:center;justify-content:center;
-  font-size:22px;flex-shrink:0;
+  font-size:24px;flex-shrink:0;
 }
 .info{flex:1;min-width:0;}
 .app-name{font-size:15px;font-weight:600;color:#eeeef8;margin-bottom:3px;}
-.upi-id{font-size:11px;color:#555568;font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.arrow{
+.upi-id{font-size:11px;color:#44445a;font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.status-icon{
   width:28px;height:28px;border-radius:50%;
   background:rgba(108,99,255,0.15);
   display:flex;align-items:center;justify-content:center;
-  color:#8880ff;font-size:14px;flex-shrink:0;
-  transition:background .2s;
+  color:#8880ff;font-size:15px;flex-shrink:0;
+  transition:all .2s;
 }
-.rec:hover .arrow{background:rgba(108,99,255,0.3);}
+.app-card:hover .status-icon{background:rgba(108,99,255,0.3);}
+.app-card.success .status-icon{background:rgba(34,197,94,0.2);color:#22c55e;}
+.app-card.detecting .status-icon{background:rgba(108,99,255,0.3);color:#fff;}
 
-/* Footer */
+/* ── Auto detect overlay ── */
+.overlay{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(8,8,15,0.92);
+  z-index:100;
+  flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:20px;
+  text-align:center;
+  padding:2rem;
+}
+.overlay.show{display:flex;}
+.spin{
+  width:56px;height:56px;border-radius:50%;
+  border:3px solid rgba(108,99,255,0.2);
+  border-top-color:#6c63ff;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.overlay-title{font-size:18px;font-weight:600;color:#f0f0f8;}
+.overlay-sub{font-size:13px;color:#55556a;line-height:1.6;}
+.overlay-cancel{
+  margin-top:8px;
+  padding:10px 24px;border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:transparent;color:#55556a;
+  font-family:'Sora',sans-serif;font-size:13px;
+  cursor:pointer;transition:all .2s;
+}
+.overlay-cancel:hover{background:rgba(255,255,255,0.06);color:#aaa;}
+
+/* ── Footer ── */
 .footer{text-align:center;margin-top:1.5rem;}
 .chips{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:10px;}
-.chip{
-  font-size:10px;padding:3px 10px;border-radius:999px;
-  border:1px solid rgba(255,255,255,0.1);color:#555568;
-}
-.foot-note{font-size:11px;color:#3a3a50;}
-.secure{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:11px;color:#3a3a50;margin-top:8px;
-}
+.chip{font-size:10px;padding:3px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);color:#44445a;}
+.foot-note{font-size:11px;color:#2a2a3a;}
+.secure{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#2a2a3a;margin-top:6px;}
 
-/* Ripple animation on tap */
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.rec{animation:fadeUp .4s ease both;}
-.rec:nth-child(1){animation-delay:.05s}
-.rec:nth-child(2){animation-delay:.10s}
-.rec:nth-child(3){animation-delay:.15s}
-.rec:nth-child(4){animation-delay:.20s}
-.rec:nth-child(5){animation-delay:.25s}
-.rec:nth-child(6){animation-delay:.30s}
+/* ── Fade in ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.app-card{animation:fadeUp .4s ease both;}
+.app-card:nth-child(1){animation-delay:.05s}
+.app-card:nth-child(2){animation-delay:.10s}
+.app-card:nth-child(3){animation-delay:.15s}
+.app-card:nth-child(4){animation-delay:.20s}
+.app-card:nth-child(5){animation-delay:.25s}
+.app-card:nth-child(6){animation-delay:.30s}
+
+/* ── Toast ── */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:#1a1a2a;border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px;padding:12px 20px;
+  font-size:13px;color:#eeeef8;
+  transition:transform .3s ease;
+  z-index:200;white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
-<div class="wrap">
 
+<!-- Auto-detect overlay -->
+<div class="overlay" id="overlay">
+  <div class="spin"></div>
+  <div class="overlay-title" id="overlay-title">Detecting your UPI app...</div>
+  <div class="overlay-sub" id="overlay-sub">Opening the best UPI app on your phone</div>
+  <button class="overlay-cancel" onclick="cancelDetect()">Cancel — choose manually</button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<div class="wrap">
   <div class="header">
     <div class="avatar">M</div>
-    <div class="name">Mritunjay Raj</div>
-    <div class="tagline">Choose your preferred UPI app to pay</div>
+    <div class="pname">Mritunjay Raj</div>
+    <div class="tagline">Scan &amp; pay instantly with your UPI app</div>
   </div>
 
-  <div class="list">
+  <div class="detect-bar">
+    <div class="dot"></div>
+    <span>Smart detection ON — tap any app or we'll auto-open the right one</span>
+  </div>
 
-    <a class="rec" href="upi://pay?pa=8969975927@upi&pn=Mritunjay%20Raj&cu=INR">
-      <div class="app-icon" style="background:linear-gradient(135deg,#1a237e,#283593);">🏛️</div>
+  <div class="list" id="app-list">
+
+    <div class="app-card" onclick="openApp('bhim')" data-id="bhim">
+      <div class="icon" style="background:linear-gradient(135deg,#1a237e,#3949ab);">🏛️</div>
       <div class="info">
         <div class="app-name">BHIM UPI</div>
         <div class="upi-id">8969975927@upi</div>
       </div>
-      <div class="arrow">›</div>
-    </a>
+      <div class="status-icon">›</div>
+    </div>
 
-    <a class="rec" href="upi://pay?pa=8969975927@superyes&pn=Mritunjay%20Raj&cu=INR">
-      <div class="app-icon" style="background:linear-gradient(135deg,#00695c,#00897b);">💎</div>
+    <div class="app-card" onclick="openApp('supermoney')" data-id="supermoney">
+      <div class="icon" style="background:linear-gradient(135deg,#004d40,#00796b);">💎</div>
       <div class="info">
         <div class="app-name">Super Money</div>
         <div class="upi-id">8969975927@superyes</div>
       </div>
-      <div class="arrow">›</div>
-    </a>
+      <div class="status-icon">›</div>
+    </div>
 
-    <a class="rec" href="upi://pay?pa=mritunjayraj2108-3@okicici&pn=Mritunjay%20Raj&cu=INR">
-      <div class="app-icon" style="background:linear-gradient(135deg,#1565c0,#1976d2);">🟢</div>
+    <div class="app-card" onclick="openApp('gpay')" data-id="gpay">
+      <div class="icon" style="background:linear-gradient(135deg,#1565c0,#42a5f5);">🟢</div>
       <div class="info">
         <div class="app-name">Google Pay</div>
         <div class="upi-id">mritunjayraj2108-3@okicici</div>
       </div>
-      <div class="arrow">›</div>
-    </a>
+      <div class="status-icon">›</div>
+    </div>
 
-    <a class="rec" href="upi://pay?pa=8969975927@pthdfc&pn=Mritunjay%20Raj&cu=INR">
-      <div class="app-icon" style="background:linear-gradient(135deg,#0277bd,#039be5);">💙</div>
+    <div class="app-card" onclick="openApp('paytm')" data-id="paytm">
+      <div class="icon" style="background:linear-gradient(135deg,#01579b,#0288d1);">💙</div>
       <div class="info">
         <div class="app-name">Paytm</div>
         <div class="upi-id">8969975927@pthdfc</div>
       </div>
-      <div class="arrow">›</div>
-    </a>
+      <div class="status-icon">›</div>
+    </div>
 
-    <a class="rec" href="upi://pay?pa=8969975927-2@ybl&pn=Mritunjay%20Raj&cu=INR">
-      <div class="app-icon" style="background:linear-gradient(135deg,#4a148c,#6a1b9a);">🟣</div>
+    <div class="app-card" onclick="openApp('phonepe')" data-id="phonepe">
+      <div class="icon" style="background:linear-gradient(135deg,#4a148c,#7b1fa2);">🟣</div>
       <div class="info">
         <div class="app-name">PhonePe</div>
         <div class="upi-id">8969975927-2@ybl</div>
       </div>
-      <div class="arrow">›</div>
-    </a>
+      <div class="status-icon">›</div>
+    </div>
 
-    <a class="rec" href="upi://pay?pa=8969975927@yapl&pn=Mritunjay%20Raj&cu=INR">
-      <div class="app-icon" style="background:linear-gradient(135deg,#e65100,#f57c00);">🛒</div>
+    <div class="app-card" onclick="openApp('amazon')" data-id="amazon">
+      <div class="icon" style="background:linear-gradient(135deg,#bf360c,#f4511e);">🛒</div>
       <div class="info">
         <div class="app-name">Amazon Pay</div>
         <div class="upi-id">8969975927@yapl</div>
       </div>
-      <div class="arrow">›</div>
-    </a>
+      <div class="status-icon">›</div>
+    </div>
 
   </div>
 
   <div class="footer">
     <div class="chips">
-      <span class="chip">BHIM</span>
-      <span class="chip">GPay</span>
-      <span class="chip">PhonePe</span>
-      <span class="chip">Paytm</span>
-      <span class="chip">Amazon Pay</span>
-      <span class="chip">Super Money</span>
+      <span class="chip">BHIM</span><span class="chip">GPay</span>
+      <span class="chip">PhonePe</span><span class="chip">Paytm</span>
+      <span class="chip">Amazon Pay</span><span class="chip">Super Money</span>
     </div>
-    <div class="foot-note">Tap any app above · Opens your UPI payment screen instantly</div>
-    <div class="secure">🔒 Secure · Powered by NPCI UPI</div>
+    <div class="foot-note">Tap your preferred app · Opens payment screen instantly</div>
+    <div class="secure">🔒 Secured by NPCI UPI</div>
   </div>
-
 </div>
+
+<script>
+// Deep link config for each app
+const APPS = {
+  bhim:       { name:'BHIM UPI',     upi:'8969975927@upi',              deep:'upi://pay?pa=8969975927@upi&pn=Mritunjay%20Raj&cu=INR',              scheme:'upi' },
+  supermoney: { name:'Super Money',  upi:'8969975927@superyes',          deep:'upi://pay?pa=8969975927@superyes&pn=Mritunjay%20Raj&cu=INR',          scheme:'upi' },
+  gpay:       { name:'Google Pay',   upi:'mritunjayraj2108-3@okicici',   deep:'gpay://upi/pay?pa=mritunjayraj2108-3@okicici&pn=Mritunjay%20Raj&cu=INR&am=', scheme:'gpay' },
+  paytm:      { name:'Paytm',        upi:'8969975927@pthdfc',            deep:'paytmmp://pay?pa=8969975927@pthdfc&pn=Mritunjay%20Raj&cu=INR',        scheme:'paytmmp' },
+  phonepe:    { name:'PhonePe',      upi:'8969975927-2@ybl',             deep:'phonepe://pay?pa=8969975927-2@ybl&pn=Mritunjay%20Raj&cu=INR',         scheme:'phonepe' },
+  amazon:     { name:'Amazon Pay',   upi:'8969975927@yapl',              deep:'upi://pay?pa=8969975927@yapl&pn=Mritunjay%20Raj&cu=INR',              scheme:'upi' },
+};
+
+// Auto-detect order: try app-specific deep links first, then fallback to upi://
+const AUTO_ORDER = ['gpay','phonepe','paytm','amazon','bhim','supermoney'];
+
+let autoTimer = null;
+let cancelFlag = false;
+
+// ── Auto detect on page load ──
+window.addEventListener('load', () => {
+  // Small delay so page renders first
+  setTimeout(autoDetect, 800);
+});
+
+function autoDetect() {
+  cancelFlag = false;
+  let idx = 0;
+
+  function tryNext() {
+    if (cancelFlag || idx >= AUTO_ORDER.length) {
+      hideOverlay();
+      return;
+    }
+    const appId = AUTO_ORDER[idx];
+    const app = APPS[appId];
+    idx++;
+
+    showOverlay(`Opening ${app.name}...`, `Checking if ${app.name} is installed on your device`);
+    highlightCard(appId, 'detecting');
+
+    // Try to open the deep link
+    const start = Date.now();
+    window.location.href = app.deep;
+
+    // If app opens, browser loses focus and this timer fires late (>2s)
+    // If app NOT installed, browser stays and this fires quickly
+    setTimeout(() => {
+      const elapsed = Date.now() - start;
+      if (elapsed < 1800) {
+        // App likely not installed — try next
+        highlightCard(appId, 'failed');
+        tryNext();
+      } else {
+        // App opened successfully
+        highlightCard(appId, 'success');
+        hideOverlay();
+        showToast(`✓ Opened in ${app.name}`);
+      }
+    }, 1600);
+  }
+
+  tryNext();
+}
+
+// ── Manual tap ──
+function openApp(appId) {
+  cancelFlag = true; // stop auto-detect
+  hideOverlay();
+
+  const app = APPS[appId];
+  const card = document.querySelector(`[data-id="${appId}"]`);
+
+  // Visual feedback
+  card.classList.add('detecting');
+  card.querySelector('.status-icon').textContent = '⏳';
+
+  const start = Date.now();
+  window.location.href = app.deep;
+
+  setTimeout(() => {
+    const elapsed = Date.now() - start;
+    if (elapsed >= 1500) {
+      card.classList.remove('detecting');
+      card.classList.add('success');
+      card.querySelector('.status-icon').textContent = '✓';
+      showToast(`✓ Opened in ${app.name}`);
+    } else {
+      // App not installed — fallback to universal upi://
+      card.classList.remove('detecting');
+      card.classList.add('failed');
+      card.querySelector('.status-icon').textContent = '✗';
+      showToast(`${app.name} not found — trying universal UPI...`);
+      setTimeout(() => {
+        window.location.href = `upi://pay?pa=${encodeURIComponent(app.upi)}&pn=Mritunjay%20Raj&cu=INR`;
+      }, 800);
+    }
+  }, 1400);
+}
+
+function highlightCard(appId, state) {
+  const card = document.querySelector(`[data-id="${appId}"]`);
+  if (!card) return;
+  card.classList.remove('detecting','success','failed');
+  if (state) card.classList.add(state);
+  if (state === 'detecting') card.querySelector('.status-icon').textContent = '⏳';
+  if (state === 'success')   card.querySelector('.status-icon').textContent = '✓';
+  if (state === 'failed')    card.querySelector('.status-icon').textContent = '✗';
+}
+
+function showOverlay(title, sub) {
+  document.getElementById('overlay-title').textContent = title;
+  document.getElementById('overlay-sub').textContent = sub;
+  document.getElementById('overlay').classList.add('show');
+}
+function hideOverlay() {
+  document.getElementById('overlay').classList.remove('show');
+}
+function cancelDetect() {
+  cancelFlag = true;
+  hideOverlay();
+  // Reset all cards
+  AUTO_ORDER.forEach(id => {
+    const card = document.querySelector(`[data-id="${id}"]`);
+    if (card) {
+      card.classList.remove('detecting','success','failed');
+      card.querySelector('.status-icon').textContent = '›';
+    }
+  });
+  showToast('Choose your preferred app below');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
 </body>
 </html>
