@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pay Me — UPI Payment Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background: #0a0a14;
+  min-height:100vh;
+  font-family:'Sora',sans-serif;
+  display:flex;align-items:center;justify-content:center;
+  padding:2rem 1rem;
+}
+.wrap{width:100%;max-width:440px;}
+
+/* Header */
+.header{text-align:center;margin-bottom:2rem;}
+.avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,#6c63ff,#ff6b9d);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;font-weight:700;color:#fff;
+  margin:0 auto 14px;
+  box-shadow:0 0 0 4px rgba(108,99,255,0.2);
+}
+.name{font-size:22px;font-weight:700;color:#f0f0f8;letter-spacing:-.03em;}
+.tagline{font-size:13px;color:#666680;margin-top:5px;}
+
+/* Cards */
+.list{display:flex;flex-direction:column;gap:10px;}
+.rec{
+  display:flex;align-items:center;gap:14px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:14px 16px;
+  text-decoration:none;
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.rec:hover,.rec:active{
+  background:rgba(255,255,255,0.08);
+  border-color:rgba(108,99,255,0.5);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,0,0,0.3);
+}
+.app-icon{
+  width:46px;height:46px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+}
+.info{flex:1;min-width:0;}
+.app-name{font-size:15px;font-weight:600;color:#eeeef8;margin-bottom:3px;}
+.upi-id{font-size:11px;color:#555568;font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.arrow{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(108,99,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  color:#8880ff;font-size:14px;flex-shrink:0;
+  transition:background .2s;
+}
+.rec:hover .arrow{background:rgba(108,99,255,0.3);}
+
+/* Footer */
+.footer{text-align:center;margin-top:1.5rem;}
+.chips{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:10px;}
+.chip{
+  font-size:10px;padding:3px 10px;border-radius:999px;
+  border:1px solid rgba(255,255,255,0.1);color:#555568;
+}
+.foot-note{font-size:11px;color:#3a3a50;}
+.secure{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;color:#3a3a50;margin-top:8px;
+}
+
+/* Ripple animation on tap */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.rec{animation:fadeUp .4s ease both;}
+.rec:nth-child(1){animation-delay:.05s}
+.rec:nth-child(2){animation-delay:.10s}
+.rec:nth-child(3){animation-delay:.15s}
+.rec:nth-child(4){animation-delay:.20s}
+.rec:nth-child(5){animation-delay:.25s}
+.rec:nth-child(6){animation-delay:.30s}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="avatar">M</div>
+    <div class="name">Mritunjay Raj</div>
+    <div class="tagline">Choose your preferred UPI app to pay</div>
+  </div>
+
+  <div class="list">
+
+    <a class="rec" href="upi://pay?pa=8969975927@upi&pn=Mritunjay%20Raj&cu=INR">
+      <div class="app-icon" style="background:linear-gradient(135deg,#1a237e,#283593);">🏛️</div>
+      <div class="info">
+        <div class="app-name">BHIM UPI</div>
+        <div class="upi-id">8969975927@upi</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+
+    <a class="rec" href="upi://pay?pa=8969975927@superyes&pn=Mritunjay%20Raj&cu=INR">
+      <div class="app-icon" style="background:linear-gradient(135deg,#00695c,#00897b);">💎</div>
+      <div class="info">
+        <div class="app-name">Super Money</div>
+        <div class="upi-id">8969975927@superyes</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+
+    <a class="rec" href="upi://pay?pa=mritunjayraj2108-3@okicici&pn=Mritunjay%20Raj&cu=INR">
+      <div class="app-icon" style="background:linear-gradient(135deg,#1565c0,#1976d2);">🟢</div>
+      <div class="info">
+        <div class="app-name">Google Pay</div>
+        <div class="upi-id">mritunjayraj2108-3@okicici</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+
+    <a class="rec" href="upi://pay?pa=8969975927@pthdfc&pn=Mritunjay%20Raj&cu=INR">
+      <div class="app-icon" style="background:linear-gradient(135deg,#0277bd,#039be5);">💙</div>
+      <div class="info">
+        <div class="app-name">Paytm</div>
+        <div class="upi-id">8969975927@pthdfc</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+
+    <a class="rec" href="upi://pay?pa=8969975927-2@ybl&pn=Mritunjay%20Raj&cu=INR">
+      <div class="app-icon" style="background:linear-gradient(135deg,#4a148c,#6a1b9a);">🟣</div>
+      <div class="info">
+        <div class="app-name">PhonePe</div>
+        <div class="upi-id">8969975927-2@ybl</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+
+    <a class="rec" href="upi://pay?pa=8969975927@yapl&pn=Mritunjay%20Raj&cu=INR">
+      <div class="app-icon" style="background:linear-gradient(135deg,#e65100,#f57c00);">🛒</div>
+      <div class="info">
+        <div class="app-name">Amazon Pay</div>
+        <div class="upi-id">8969975927@yapl</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    <div class="chips">
+      <span class="chip">BHIM</span>
+      <span class="chip">GPay</span>
+      <span class="chip">PhonePe</span>
+      <span class="chip">Paytm</span>
+      <span class="chip">Amazon Pay</span>
+      <span class="chip">Super Money</span>
+    </div>
+    <div class="foot-note">Tap any app above · Opens your UPI payment screen instantly</div>
+    <div class="secure">🔒 Secure · Powered by NPCI UPI</div>
+  </div>
+
+</div>
+</body>
+</html>
